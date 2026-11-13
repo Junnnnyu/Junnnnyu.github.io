@@ -232,7 +232,7 @@
   }
   .glow:hover::before, .glow:hover::after { opacity: 1; }
 
-  /* ---------- workflow demo ---------- */
+  /* ---------- hero demo ---------- */
   .demo {
     margin: 0; border: 1px solid var(--line); border-radius: 18px; background: var(--surface);
     box-shadow: 0 30px 80px -40px rgba(0, 0, 0, .55);
@@ -243,37 +243,36 @@
   }
   .demo-bar .dots { display: inline-flex; gap: 6px; }
   .demo-bar .dots i { width: 9px; height: 9px; border-radius: 50%; background: var(--line); }
-  .demo-bar .name { color: var(--muted); }
-  .demo-bar .run { margin-left: auto; color: var(--ok); }
+  .demo-bar .name { color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .demo-bar .run { margin-left: auto; color: var(--ok); white-space: nowrap; }
   .graph { display: block; width: 100%; height: auto; padding: 14px 16px 6px; }
-  .graph text { font: 500 13.5px var(--mono); text-anchor: middle; dominant-baseline: central; fill: var(--muted); transition: fill .25s; }
-  .node rect { fill: var(--surface-2); stroke: var(--line); stroke-width: 1.5; transition: fill .25s, stroke .25s; }
-  .node.done rect { stroke: color-mix(in srgb, var(--ok) 50%, var(--line)); }
-  .node.done text { fill: var(--text); }
-  .node.active rect { fill: var(--ok-soft); stroke: var(--ok); animation: think .7s ease-in-out infinite alternate; }
-  .node.active text { fill: var(--text); }
-  .node.warn rect { fill: var(--warn-soft); stroke: var(--warn); }
-  .node.bad rect { fill: var(--bad-soft); stroke: var(--bad); }
-  @keyframes think { from { stroke-opacity: 1; } to { stroke-opacity: .35; } }
-  .edge path { fill: none; stroke: var(--line); stroke-width: 1.5; transition: stroke .25s; }
-  .edge polygon { fill: var(--line); transition: fill .25s; }
-  .edge.lit path { stroke: var(--ok); }
-  .edge.lit polygon { fill: var(--ok); }
-  .edge.retry path { stroke-dasharray: 4 4; }
-  .edge.retry.lit path { stroke: var(--warn); }
-  .edge.retry.lit polygon { fill: var(--warn); }
-  .edge.rej.lit path { stroke: var(--bad); }
-  .graph .lbl { font-size: 11.5px; fill: var(--faint); }
-  .edge.retry.lit + .lbl { fill: var(--warn); }
-  .chip rect { fill: var(--surface-2); stroke: var(--line); stroke-width: 1.5; transition: fill .25s, stroke .25s; }
-  .chip text { font-size: 12.5px; }
-  .chip.on.ok rect { fill: var(--ok-soft); stroke: var(--ok); }
-  .chip.on.ok text { fill: var(--ok); }
-  .chip.on.bad rect { fill: var(--bad-soft); stroke: var(--bad); }
-  .chip.on.bad text { fill: var(--bad); }
-  .pkt { fill: var(--ok); opacity: 0; filter: drop-shadow(0 0 5px var(--ok)); }
-  .pkt.warn { fill: var(--warn); filter: drop-shadow(0 0 5px var(--warn)); }
-  .pkt.bad { fill: var(--bad); filter: drop-shadow(0 0 5px var(--bad)); }
+  .graph text { font: 500 10.5px var(--mono); fill: var(--faint); }
+  .graph .ttl { font-size: 11px; fill: var(--muted); }
+  .graph .tick { text-anchor: middle; }
+  .graph .zero { stroke: var(--line); stroke-width: 1; }
+  .graph .bar { fill: var(--muted); opacity: .8; transition: fill .5s, opacity .5s; }
+  .graph .bar.pos { fill: var(--ok); opacity: 1; }
+  .graph .bar.neg { fill: var(--info); opacity: 1; }
+  .graph.focus .bar { opacity: .26; }
+  .graph.focus .bar.key { opacity: 1; }
+  .graph .brk { fill: var(--surface); opacity: 0; transition: opacity .3s; }
+  .graph.clip .brk { opacity: 1; }
+  .graph .trace { fill: none; stroke-width: 1.6; stroke-linejoin: round; stroke-linecap: round; opacity: 0; transition: opacity .4s; }
+  .graph .trace.read { stroke: var(--info); }
+  .graph .trace.ctrl { stroke: var(--text); stroke-dasharray: 1.5 3.5; }
+  .graph .trace.on { opacity: 1; }
+  .graph .dot { fill: var(--surface); stroke: var(--text); stroke-width: 1.4; opacity: 0; transition: opacity .35s; }
+  .graph .dot.on { opacity: 1; }
+  .graph.focus .dot.on { opacity: .3; }
+  .graph.focus .dot.on.key { opacity: 1; }
+  .graph .tag { font-size: 9.5px; text-anchor: middle; opacity: 0; transition: opacity .4s; }
+  .graph .tag.pos { fill: var(--ok); }
+  .graph .tag.neg { fill: var(--info); }
+  .graph.focus .tag { opacity: 1; }
+  .graph .leg { opacity: 0; transition: opacity .4s; }
+  .graph .leg.pos { fill: var(--ok); text-anchor: end; }
+  .graph .leg.neg { fill: var(--info); }
+  .graph.contrast .leg { opacity: 1; }
 
   .log {
     height: 236px; margin: 4px 12px 0; padding: 12px 14px;
@@ -281,7 +280,7 @@
     font: 12.5px/21px var(--mono); overflow: hidden;
     display: flex; flex-direction: column; justify-content: flex-start;
   }
-  .ln { display: grid; grid-template-columns: 46px 74px minmax(0, 1fr); white-space: nowrap; animation: lnin .25s ease both; }
+  .ln { display: grid; grid-template-columns: 30px 80px minmax(0, 1fr); white-space: nowrap; animation: lnin .25s ease both; }
   @keyframes lnin { from { opacity: 0; transform: translateY(5px); } }
   .ln .ts { color: var(--faint); }
   .ln .k { color: var(--muted); }
@@ -290,9 +289,11 @@
   .ln.ok .v { color: var(--ok); }
   .ln.warn .v { color: var(--warn); }
   .ln.bad .v { color: var(--bad); }
+  .ln.info .v, .ln.info .k { color: var(--info); }
+  .ln.ok .k { color: var(--ok); }
   .ln:last-child .v::after { content: "▍"; color: var(--ok); margin-left: 4px; animation: blink 1s steps(2) infinite; }
   @keyframes blink { 50% { opacity: 0; } }
-  .demo figcaption { padding: 11px 16px 14px; font-size: 13px; color: var(--faint); line-height: 1.5; }
+  .demo figcaption { padding: 11px 16px 14px; font-size: 13px; color: var(--muted); line-height: 1.5; }
 
   /* ---------- stats ---------- */
   .stats {
@@ -454,8 +455,9 @@
     .timeline .when { text-align: left; padding-left: 28px; }
     .timeline li::after { left: 4px; top: 50px; }
     .timeline .body::before { top: -18px; }
-    .ln { grid-template-columns: 70px minmax(0, 1fr); }
+    .ln { grid-template-columns: 74px minmax(0, 1fr); }
     .ln .ts { display: none; }
+    .demo-bar .dots { display: none; }
     .log { font-size: 12px; margin: 4px 8px 0; padding: 10px 12px; }
     .graph { padding: 12px 8px 4px; }
     .contact-card { padding: 26px 20px; }
@@ -537,35 +539,36 @@
       </div>
     </div>
 
-    <figure class="demo glow" id="demo" aria-label="Animated illustration of the SimpleNote workflow: extract, retrieve, plan, write, and check, ending in accept, retry, or reject.">
+    <figure class="demo glow" id="demo" aria-label="Animated chart from my MedShapley study: Shapley attribution across the 32 layers of Llama-3-8B-Instruct. After subtracting matched random-span controls, layers 21, 22, 25 and 28 lean toward factuality and layers 3, 4 and 31 lean toward readability, consistently across two annotation protocols.">
       <div class="demo-bar" aria-hidden="true">
         <span class="dots"><i></i><i></i><i></i></span>
-        <span class="name">simplenote / workflow</span>
-        <span class="run" id="runNo">run 01</span>
+        <span class="name">medshapley / layer attribution</span>
+        <span class="run">Llama-3-8B</span>
       </div>
-      <svg class="graph" viewBox="-4 12 448 150" aria-hidden="true">
-        <g class="edge" id="e0"><path d="M76 85 H91"/><polygon points="85,81 91,85 85,89"/></g>
-        <g class="edge" id="e1"><path d="M167 85 H182"/><polygon points="176,81 182,85 176,89"/></g>
-        <g class="edge" id="e2"><path d="M258 85 H273"/><polygon points="267,81 273,85 267,89"/></g>
-        <g class="edge" id="e3"><path d="M349 85 H364"/><polygon points="358,81 364,85 358,89"/></g>
-        <g class="edge retry" id="eRetry"><path d="M402 66 C402 26 311 26 311 66"/><polygon points="307,59 315,59 311,66"/></g>
-        <text class="lbl" x="356.5" y="24">retry</text>
-        <g class="edge" id="eAccept"><path d="M402 104 V130"/></g>
-        <g class="edge rej" id="eReject"><path d="M402 104 V117 H311 V130"/></g>
-
-        <g class="node" id="n0"><rect x="0" y="66" width="76" height="38" rx="10"/><text x="38" y="85">extract</text></g>
-        <g class="node" id="n1"><rect x="91" y="66" width="76" height="38" rx="10"/><text x="129" y="85">retrieve</text></g>
-        <g class="node" id="n2"><rect x="182" y="66" width="76" height="38" rx="10"/><text x="220" y="85">plan</text></g>
-        <g class="node" id="n3"><rect x="273" y="66" width="76" height="38" rx="10"/><text x="311" y="85">write</text></g>
-        <g class="node" id="n4"><rect x="364" y="66" width="76" height="38" rx="10"/><text x="402" y="85">check</text></g>
-
-        <g class="chip ok" id="cAccept"><rect x="368" y="130" width="68" height="26" rx="13"/><text x="402" y="143">accept</text></g>
-        <g class="chip bad" id="cReject"><rect x="277" y="130" width="68" height="26" rx="13"/><text x="311" y="143">reject</text></g>
-
-        <circle class="pkt" id="pkt" r="4.5" cx="0" cy="85"/>
+      <svg class="graph clip" id="graph" viewBox="0 0 448 192" aria-hidden="true">
+        <defs>
+          <clipPath id="cpRead"><rect id="cpReadR" x="0" y="0" width="0" height="192"/></clipPath>
+          <clipPath id="cpCtrl"><rect id="cpCtrlR" x="0" y="0" width="0" height="192"/></clipPath>
+        </defs>
+        <text class="ttl" id="gTitle" x="10" y="14">Shapley attribution by layer (z-score)</text>
+        <text class="leg pos" x="438" y="14">↑ factuality-leaning</text>
+        <text class="leg neg" x="10" y="172">↓ readability-leaning</text>
+        <line class="zero" x1="8" y1="94" x2="440" y2="94"/>
+        <g id="gBars"></g>
+        <rect class="brk" x="10" y="39" width="10.6" height="3"/>
+        <rect class="brk" x="23.4" y="39" width="10.6" height="3"/>
+        <polyline class="trace ctrl" id="tCtrl" clip-path="url(#cpCtrl)"/>
+        <polyline class="trace read" id="tRead" clip-path="url(#cpRead)"/>
+        <g id="gDots"></g>
+        <g id="gTags"></g>
+        <text class="tick" x="15.3" y="187">L0</text>
+        <text class="tick" x="122.5" y="187">L8</text>
+        <text class="tick" x="229.7" y="187">L16</text>
+        <text class="tick" x="336.9" y="187">L24</text>
+        <text class="tick" x="430.7" y="187">L31</text>
       </svg>
       <div class="log" id="log" aria-hidden="true"></div>
-      <figcaption>Simulated run of my SimpleNote workflow. Every draft ends in an accept, retry, or reject decision, with its reason saved.</figcaption>
+      <figcaption>Real per-layer results from <a href="#medshapley">MedShapley</a>, my layer-attribution study of Llama-3-8B-Instruct. The signal appears only after subtracting matched random-span controls. <a href="https://github.com/Junnnnyu/medshapley-layer-attribution" target="_blank" rel="noopener">Code on GitHub ↗</a></figcaption>
     </figure>
   </header>
 
@@ -689,8 +692,8 @@
         </ul>
       </article>
 
-      <article class="project glow" data-reveal>
-        <h3>Layer Attribution and Selective LoRA for Llama-3-8B</h3>
+      <article class="project glow" id="medshapley" data-reveal>
+        <h3>MedShapley: Layer Attribution and Selective LoRA for Llama-3-8B</h3>
         <ul class="stack"><li>PyTorch</li><li>PEFT/LoRA</li><li>Shapley attribution</li></ul>
         <ul class="points">
           <li>Designed matched-control Shapley attribution over all 32 layers to separate layers that lean toward factuality from those that lean toward readability.</li>
@@ -886,24 +889,66 @@
     }
   });
 
-  /* ---------- workflow demo ---------- */
-  var demo = $("demo"), log = $("log"), pkt = $("pkt"), runLabel = $("runNo");
-  var nodes = [0, 1, 2, 3, 4].map(function (i) { return $("n" + i); });
-  var edges = [0, 1, 2, 3].map(function (i) { return $("e" + i); });
-  var eRetry = $("eRetry"), eAccept = $("eAccept"), eReject = $("eReject");
-  var cAccept = $("cAccept"), cReject = $("cReject");
-  var names = ["extract", "retrieve", "plan", "write", "check"];
-  var runNo = 0, clock = 0, onScreen = true;
+  /* ---------- MedShapley demo ----------
+     Real per-layer values from the study (layers are 0-based).
+     FACT / READ / CTRL: z-scored Shapley profiles for factual spans, readability spans,
+     and random spans matched to the factual spans by paragraph and word count.
+     C1 / C2: matched-control contrast (fact residual minus readability residual)
+     under the two annotation protocols. */
+  var FACT = [4.341, 2.44, -0.515, -0.433, -0.506, -0.623, -0.605, -0.565, -0.668, -0.602, -0.641, -0.618, -0.4, -0.588, -0.376, -0.249, -0.289, -0.379, -0.195, -0.089, 0.053, -0.04, 0.208, 0.629, 0.041, 0.403, -0.296, 0.422, 0.173, 0.448, -1.14, 0.66];
+  var READ = [4.484, 2.297, -0.4, -0.286, -0.394, -0.561, -0.504, -0.515, -0.624, -0.493, -0.548, -0.595, -0.306, -0.639, -0.423, -0.287, -0.306, -0.374, -0.108, -0.09, 0.12, -0.246, 0.03, 0.513, -0.085, 0.222, -0.258, 0.365, 0.064, 0.386, -1.277, 0.838];
+  var CTRL = [4.358, 2.406, -0.502, -0.417, -0.496, -0.625, -0.596, -0.573, -0.663, -0.582, -0.631, -0.616, -0.38, -0.609, -0.372, -0.262, -0.294, -0.39, -0.152, -0.096, 0.111, -0.088, 0.184, 0.605, -0.015, 0.386, -0.328, 0.439, 0.208, 0.393, -1.145, 0.743];
+  var C1 = [-0.128, 0.071, -0.107, -0.133, -0.113, -0.067, -0.097, -0.061, -0.051, -0.122, -0.101, -0.033, -0.099, 0.034, 0.02, 0.029, 0.007, -0.017, -0.074, 0.017, -0.048, 0.191, 0.187, 0.127, 0.138, 0.188, -0.038, 0.11, 0.152, 0.097, 0.13, -0.207];
+  var C2 = [-0.067, 0.063, -0.083, -0.093, -0.074, -0.053, -0.078, -0.046, -0.021, -0.053, -0.056, -0.007, -0.055, 0.064, 0.06, 0.012, 0.062, -0.02, -0.018, -0.009, -0.003, 0.134, 0.104, 0.025, 0.054, 0.149, -0.003, -0.022, 0.095, -0.012, 0.054, -0.103];
+  var KEY = { 21: "pos", 22: "pos", 25: "pos", 28: "pos", 3: "neg", 4: "neg", 31: "neg" };
+
+  var NS = "http://www.w3.org/2000/svg";
+  var demo = $("demo"), log = $("log"), svg = $("graph"), ttl = $("gTitle");
+  var tRead = $("tRead"), tCtrl = $("tCtrl"), cpRead = $("cpReadR"), cpCtrl = $("cpCtrlR");
+  var N = 32, ZERO = 94, X0 = 11, STEP = 13.4, BW = 8.6, ZS = 54, CS = 290;
+  var bars = [], dots = [], cur = [], stepNo = 0, onScreen = true;
 
   function sleep(ms) { return new Promise(function (r) { setTimeout(r, ms); }); }
-  function rand(n) { return Math.floor(Math.random() * n); }
   function pad(n) { return n < 10 ? "0" + n : "" + n; }
+  function mk(name, attrs, parent) {
+    var e = document.createElementNS(NS, name);
+    for (var k in attrs) e.setAttribute(k, attrs[k]);
+    parent.appendChild(e);
+    return e;
+  }
+  function cx(i) { return X0 + i * STEP + BW / 2; }
+  function zpx(v) { return Math.max(-70, Math.min(62, v * ZS)); }   /* layers 0 and 1 run off the scale */
+  function cpx(v) { return v * CS; }
+  function pts(arr) {
+    return arr.map(function (v, i) { return cx(i).toFixed(1) + "," + (ZERO - zpx(v)).toFixed(1); }).join(" ");
+  }
+  function setBar(i, px) {
+    cur[i] = px;
+    bars[i].setAttribute("y", (px >= 0 ? ZERO - px : ZERO).toFixed(2));
+    bars[i].setAttribute("height", Math.abs(px).toFixed(2));
+  }
+
+  (function build() {
+    var gBars = $("gBars"), gDots = $("gDots"), gTags = $("gTags");
+    for (var i = 0; i < N; i++) {
+      bars.push(mk("rect", { "class": "bar", x: (X0 + i * STEP).toFixed(1), y: ZERO, width: BW, height: 0, rx: 1.5 }, gBars));
+      dots.push(mk("circle", { "class": "dot", cx: cx(i).toFixed(1), cy: (ZERO - cpx(C2[i])).toFixed(1), r: 2.6 }, gDots));
+      cur.push(0);
+      if (KEY[i]) {
+        var up = KEY[i] === "pos";
+        var t = mk("text", { "class": "tag " + KEY[i], x: cx(i).toFixed(1), y: (ZERO - cpx(C1[i]) + (up ? -5 : 12)).toFixed(1) }, gTags);
+        t.textContent = i;
+      }
+    }
+    tRead.setAttribute("points", pts(READ));
+    tCtrl.setAttribute("points", pts(CTRL));
+  })();
 
   function line(key, msg, cls) {
     var d = document.createElement("div");
     d.className = "ln" + (cls ? " " + cls : "");
-    var secs = (clock / 1000).toFixed(1) + "s";
-    [["ts", secs], ["k", key], ["v", msg]].forEach(function (p) {
+    stepNo += 1;
+    [["ts", pad(stepNo)], ["k", key], ["v", msg]].forEach(function (p) {
       var s = document.createElement("span");
       s.className = p[0]; s.textContent = p[1];
       d.appendChild(s);
@@ -913,107 +958,114 @@
 
   function reset() {
     log.textContent = "";
-    nodes.forEach(function (n) { n.setAttribute("class", "node"); });
-    edges.concat([eAccept]).forEach(function (e) { e.setAttribute("class", "edge"); });
-    eRetry.setAttribute("class", "edge retry");
-    eReject.setAttribute("class", "edge rej");
-    cAccept.setAttribute("class", "chip ok");
-    cReject.setAttribute("class", "chip bad");
+    stepNo = 0;
+    svg.setAttribute("class", "graph clip");
+    ttl.textContent = "Shapley attribution by layer (z-score)";
+    for (var i = 0; i < N; i++) {
+      setBar(i, 0);
+      bars[i].setAttribute("class", "bar");
+      dots[i].setAttribute("class", "dot" + (KEY[i] ? " key" : ""));
+    }
+    tRead.setAttribute("class", "trace read");
+    tCtrl.setAttribute("class", "trace ctrl");
+    cpRead.setAttribute("width", 0);
+    cpCtrl.setAttribute("width", 0);
   }
 
-  function travel(group, ms, cls) {
-    var p = group.querySelector("path"), len = p.getTotalLength();
-    pkt.setAttribute("class", "pkt" + (cls ? " " + cls : ""));
-    pkt.style.opacity = 1;
+  function toContrast() {
+    svg.setAttribute("class", "graph contrast");
+    ttl.textContent = "matched-control contrast by layer";
+    tRead.setAttribute("class", "trace read");
+    tCtrl.setAttribute("class", "trace ctrl");
+    for (var i = 0; i < N; i++) {
+      bars[i].setAttribute("class", "bar " + (C1[i] >= 0 ? "pos" : "neg") + (KEY[i] ? " key" : ""));
+    }
+  }
+
+  function tween(ms, fn) {
     return new Promise(function (res) {
       var start = performance.now();
       (function frame(t) {
         var k = Math.min(1, Math.max(0, (t - start) / ms));
-        var e = k < .5 ? 2 * k * k : 1 - Math.pow(-2 * k + 2, 2) / 2;
-        var pt = p.getPointAtLength(len * e);
-        pkt.setAttribute("cx", pt.x); pkt.setAttribute("cy", pt.y);
-        if (k < 1) { requestAnimationFrame(frame); }
-        else { pkt.style.opacity = 0; group.classList.add("lit"); clock += ms; res(); }
+        fn(k);
+        if (k < 1) requestAnimationFrame(frame); else res();
       })(start);
     });
+  }
+  function sweep(target) {
+    var per = 420, lag = 18, total = per + lag * (N - 1);
+    return tween(total, function (k) {
+      for (var i = 0; i < N; i++) {
+        var kk = Math.min(1, Math.max(0, (k * total - i * lag) / per));
+        setBar(i, target[i] * (1 - Math.pow(1 - kk, 3)));
+      }
+    });
+  }
+  function morph(target, ms) {
+    var from = cur.slice();
+    return tween(ms, function (k) {
+      var e = k < .5 ? 4 * k * k * k : 1 - Math.pow(-2 * k + 2, 3) / 2;
+      for (var i = 0; i < N; i++) setBar(i, from[i] + (target[i] - from[i]) * e);
+    });
+  }
+  function reveal(trace, clipRect) {
+    trace.classList.add("on");
+    return tween(750, function (k) { clipRect.setAttribute("width", (448 * k).toFixed(1)); });
   }
 
   async function gate() { while (!onScreen || document.hidden) await sleep(400); }
 
-  async function work(i, msg, ms) {
+  async function play() {
+    reset();
+    line("model", "Llama-3-8B-Instruct · 32 layers", "head");
     await gate();
-    nodes[i].setAttribute("class", "node active");
-    await sleep(ms || 620);
-    clock += ms || 620;
-    line(names[i], msg);
-    nodes[i].setAttribute("class", "node done");
+    await sweep(FACT.map(zpx));
+    line("shapley", "factual spans, per layer");
+    await sleep(600);
+    await gate();
+    await reveal(tRead, cpRead);
+    line("shapley", "readability spans", "info");
+    await sleep(600);
+    await gate();
+    await reveal(tCtrl, cpCtrl);
+    line("control", "matched random spans");
+    await sleep(800);
+    line("confound", "controls match · r > 0.99", "warn");
+    await sleep(1700);
+    await gate();
+    toContrast();
+    await morph(C1.map(cpx), 950);
+    line("residual", "fact − read, controls removed");
+    await sleep(900);
+    await gate();
+    dots.forEach(function (d, i) { setTimeout(function () { d.classList.add("on"); }, i * 22); });
+    await sleep(22 * N + 250);
+    line("replicate", "second protocol · r = 0.89");
+    await sleep(1100);
+    svg.classList.add("focus");
+    line("fact ↑", "layers 21, 22, 25, 28", "ok");
+    await sleep(800);
+    line("read ↓", "layers 3, 4, 31", "info");
   }
 
-  async function run() {
-    runNo += 1;
+  function staticFinal() {
     reset();
-    clock = 0;
-    runLabel.textContent = "run " + pad(runNo);
-    var facts = 9 + rand(8), terms = 3 + rand(5);
-    line("run " + pad(runNo), "discharge note → plain language", "head");
-
-    await work(0, facts + " source facts");
-    await travel(edges[0], 240);
-    await work(1, terms + " UMLS terms defined");
-    await travel(edges[1], 240);
-    await work(2, "simplification plan ready");
-    await travel(edges[2], 240);
-    await work(3, "draft v1", 760);
-    await travel(edges[3], 240);
-
-    var firstPass = Math.random() < 0.5;
-    if (firstPass) {
-      await work(4, facts + "/" + facts + " facts aligned", 760);
-    } else {
-      var omission = Math.random() < 0.6;
-      await work(4, omission ? (facts - 1) + "/" + facts + " aligned · 1 omission" : "1 unsupported addition", 760);
-      nodes[4].setAttribute("class", "node warn");
-      line("decision", "RETRY · " + (omission ? "omission flagged" : "addition flagged"), "warn");
-      await sleep(350);
-      await travel(eRetry, 800, "warn");
-      nodes[4].setAttribute("class", "node");
-      edges[3].setAttribute("class", "edge");
-      await work(3, "draft v2", 760);
-      eRetry.setAttribute("class", "edge retry");
-      await travel(edges[3], 240);
-      if (Math.random() < 0.12) {
-        await work(4, "issue remains after retry", 760);
-        nodes[4].setAttribute("class", "node bad");
-        await travel(eReject, 520, "bad");
-        cReject.setAttribute("class", "chip bad on");
-        line("decision", "REJECT · reason saved", "bad");
-        return;
-      }
-      await work(4, facts + "/" + facts + " facts aligned", 760);
-    }
-    await travel(eAccept, 320);
-    cAccept.setAttribute("class", "chip ok on");
-    line("decision", "ACCEPT · reason saved", "ok");
-  }
-
-  function staticRun() {
-    reset();
-    runLabel.textContent = "run 01";
-    clock = 0;
-    line("run 01", "discharge note → plain language", "head");
-    line("extract", "12 source facts");
-    line("retrieve", "5 UMLS terms defined");
-    line("plan", "simplification plan ready");
-    line("write", "draft v1");
-    line("check", "12/12 facts aligned");
-    line("decision", "ACCEPT · reason saved", "ok");
-    nodes.forEach(function (n) { n.setAttribute("class", "node done"); });
-    edges.concat([eAccept]).forEach(function (e) { e.setAttribute("class", "edge lit"); });
-    cAccept.setAttribute("class", "chip ok on");
+    toContrast();
+    C1.forEach(function (v, i) { setBar(i, cpx(v)); dots[i].classList.add("on"); });
+    svg.classList.add("focus");
+    line("model", "Llama-3-8B-Instruct · 32 layers", "head");
+    line("shapley", "factual spans, per layer");
+    line("shapley", "readability spans", "info");
+    line("control", "matched random spans");
+    line("confound", "controls match · r > 0.99", "warn");
+    line("residual", "fact − read, controls removed");
+    line("replicate", "second protocol · r = 0.89");
+    line("fact ↑", "layers 21, 22, 25, 28", "ok");
+    line("read ↓", "layers 3, 4, 31", "info");
   }
 
   if (reduce || !window.requestAnimationFrame || !window.Promise) {
-    staticRun();
+    staticFinal();
   } else {
     if ("IntersectionObserver" in window) {
       new IntersectionObserver(function (en) { onScreen = en[0].isIntersecting; }, { threshold: 0.05 }).observe(demo);
@@ -1022,8 +1074,8 @@
       await sleep(900);
       for (;;) {
         await gate();
-        try { await run(); } catch (e) { staticRun(); return; }
-        await sleep(2600);
+        try { await play(); } catch (e) { staticFinal(); return; }
+        await sleep(7000);
       }
     })();
   }
