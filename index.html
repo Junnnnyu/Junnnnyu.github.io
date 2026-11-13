@@ -1,0 +1,384 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Junyu Lu</title>
+<meta name="description" content="Junyu Lu, Computer Science PhD student at NJIT working on LLM agents, retrieval-augmented generation, and reliable evaluation of language models.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #fbfaf7;
+    --surface: #ffffff;
+    --text: #1d1f23;
+    --muted: #5d636e;
+    --line: #e6e3dc;
+    --accent: #1f5fae;
+    --accent-soft: #e8f0fa;
+    --tag: #f1efe9;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #121417;
+      --surface: #1a1d21;
+      --text: #e7e8ea;
+      --muted: #a0a6b0;
+      --line: #2c3036;
+      --accent: #7fb2f0;
+      --accent-soft: #1d2a3a;
+      --tag: #23272c;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #121417;
+    --surface: #1a1d21;
+    --text: #e7e8ea;
+    --muted: #a0a6b0;
+    --line: #2c3036;
+    --accent: #7fb2f0;
+    --accent-soft: #1d2a3a;
+    --tag: #23272c;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font: 16px/1.65 Inter, system-ui, -apple-system, "Segoe UI", sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  nav {
+    position: sticky; top: 0; z-index: 10;
+    background: color-mix(in srgb, var(--bg) 88%, transparent);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav-inner {
+    max-width: 880px; margin: 0 auto; padding: 12px 16px;
+    display: flex; align-items: center; gap: 20px; flex-wrap: wrap;
+  }
+  .nav-inner .brand { font-weight: 700; color: var(--text); margin-right: auto; }
+  .nav-inner a:not(.brand) { color: var(--muted); font-size: 14px; font-weight: 500; }
+  .nav-inner a:not(.brand):hover { color: var(--accent); text-decoration: none; }
+
+  main { max-width: 880px; margin: 0 auto; padding: 0 16px 64px; }
+
+  .hero {
+    display: grid; grid-template-columns: 148px 1fr; gap: 32px;
+    align-items: center; padding: 56px 0 40px;
+  }
+  .avatar {
+    width: 148px; height: 148px; border-radius: 50%;
+    background: var(--accent-soft); color: var(--accent);
+    display: grid; place-items: center;
+    font: 700 48px/1 "Source Serif 4", Georgia, serif;
+    overflow: hidden; border: 1px solid var(--line);
+  }
+  .avatar img { width: 100%; height: 100%; object-fit: cover; }
+  h1 {
+    font: 700 40px/1.15 "Source Serif 4", Georgia, serif;
+    margin: 0 0 6px; letter-spacing: -0.01em;
+  }
+  .role { color: var(--muted); margin: 0 0 14px; font-size: 17px; }
+  .bio { margin: 0 0 18px; max-width: 62ch; }
+  .links { display: flex; flex-wrap: wrap; gap: 10px; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 7px;
+    padding: 7px 14px; border-radius: 999px;
+    border: 1px solid var(--line); background: var(--surface);
+    color: var(--text); font-size: 14px; font-weight: 500;
+  }
+  .btn:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+  .btn svg { width: 16px; height: 16px; }
+  .note {
+    margin-top: 18px; padding: 10px 14px; border-radius: 10px;
+    background: var(--accent-soft); font-size: 14.5px; max-width: 62ch;
+  }
+
+  section { padding: 28px 0; border-top: 1px solid var(--line); }
+  h2 {
+    font: 700 24px/1.3 "Source Serif 4", Georgia, serif;
+    margin: 0 0 18px;
+  }
+  .interests { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; padding: 0; list-style: none; }
+  .interests li {
+    background: var(--tag); border-radius: 8px; padding: 5px 12px; font-size: 14.5px;
+  }
+
+  .pub { display: grid; grid-template-columns: 34px 1fr; gap: 6px; margin-bottom: 18px; }
+  .pub .num { color: var(--muted); font-weight: 600; }
+  .pub .title { font-weight: 600; }
+  .pub .authors { color: var(--muted); font-size: 15px; }
+  .pub .authors b { color: var(--text); font-weight: 600; }
+  .venue { font-size: 14.5px; }
+  .badge {
+    display: inline-block; font-size: 12px; font-weight: 600;
+    padding: 1px 8px; border-radius: 6px; margin-right: 6px;
+    background: var(--accent-soft); color: var(--accent);
+  }
+
+  .project {
+    background: var(--surface); border: 1px solid var(--line);
+    border-radius: 14px; padding: 20px 22px; margin-bottom: 16px;
+  }
+  .project h3 { margin: 0 0 4px; font-size: 17px; line-height: 1.4; }
+  .project .stack { color: var(--muted); font-size: 13.5px; margin: 0 0 10px; }
+  .project ul { margin: 0; padding-left: 20px; }
+  .project li { margin-bottom: 5px; }
+  .project li:last-child { margin-bottom: 0; }
+
+  .timeline .item {
+    display: grid; grid-template-columns: 1fr auto; gap: 4px 16px; margin-bottom: 14px;
+  }
+  .timeline .what { font-weight: 600; }
+  .timeline .where { color: var(--muted); font-size: 15px; grid-column: 1; }
+  .timeline .when { color: var(--muted); font-size: 14px; white-space: nowrap; grid-row: 1; grid-column: 2; }
+
+  .skills { display: grid; grid-template-columns: 170px 1fr; gap: 8px 16px; font-size: 15px; }
+  .skills dt { font-weight: 600; }
+  .skills dd { margin: 0; color: var(--muted); }
+
+  footer {
+    max-width: 880px; margin: 0 auto; padding: 24px 16px 40px;
+    color: var(--muted); font-size: 13.5px; border-top: 1px solid var(--line);
+    display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap;
+  }
+  .theme-toggle {
+    background: none; border: 1px solid var(--line); color: var(--muted);
+    border-radius: 999px; padding: 3px 12px; font: inherit; cursor: pointer;
+  }
+
+  @media (max-width: 640px) {
+    .hero { grid-template-columns: 1fr; gap: 20px; padding: 36px 0 28px; text-align: left; }
+    .avatar { width: 104px; height: 104px; font-size: 36px; }
+    h1 { font-size: 32px; }
+    nav { position: static; }
+    .nav-inner { gap: 4px 14px; }
+    .nav-inner .brand { width: 100%; }
+    .timeline .item { grid-template-columns: 1fr; }
+    .timeline .when { grid-row: auto; grid-column: 1; }
+    .skills { grid-template-columns: 1fr; gap: 2px; }
+    .skills dd { margin-bottom: 10px; }
+    .project { padding: 16px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a class="brand" href="#top">Junyu Lu</a>
+    <a href="#research">Research</a>
+    <a href="#publications">Publications</a>
+    <a href="#projects">Projects</a>
+    <a href="#experience">Experience</a>
+    <a href="#contact">Contact</a>
+  </div>
+</nav>
+
+<main id="top">
+  <header class="hero">
+    <div class="avatar" aria-hidden="true">
+      <!-- To add a photo: put photo.jpg next to this file and replace "JL" with <img src="photo.jpg" alt=""> -->
+      JL
+    </div>
+    <div>
+      <h1>Junyu Lu</h1>
+      <p class="role">Ph.D. Student in Computer Science · New Jersey Institute of Technology</p>
+      <p class="bio">
+        I build LLM systems that can be checked. My research designs multi-agent workflows,
+        retrieval-augmented generation, and evaluation methods that keep large language models
+        faithful to their sources, with clinical text simplification as the main testbed.
+        Before my Ph.D., I trained in financial engineering and worked as a quantitative developer intern.
+      </p>
+      <div class="links">
+        <a class="btn" href="mailto:jl2537@njit.edu">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+          Email
+        </a>
+        <a class="btn" href="https://github.com/Junnnnyu" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.52-1.33-1.28-1.69-1.28-1.69-1.04-.71.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.76 2.7 1.25 3.36.96.1-.75.4-1.25.73-1.54-2.56-.29-5.25-1.28-5.25-5.68 0-1.26.45-2.28 1.19-3.09-.12-.29-.52-1.46.11-3.04 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.58.23 2.75.11 3.04.74.81 1.19 1.83 1.19 3.09 0 4.41-2.7 5.38-5.27 5.67.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5Z"/></svg>
+          GitHub
+        </a>
+      </div>
+      <p class="note">I am looking for <b>Summer 2027 research or applied science internships</b> in LLM agents, RAG, and LLM evaluation. Expected Ph.D. graduation: May 2028.</p>
+    </div>
+  </header>
+
+  <section id="research">
+    <h2>Research Interests</h2>
+    <ul class="interests">
+      <li>LLM agents &amp; multi-agent workflows</li>
+      <li>Retrieval-augmented generation</li>
+      <li>LLM evaluation &amp; benchmarking</li>
+      <li>Factuality &amp; faithfulness</li>
+      <li>Neuro-symbolic verification</li>
+      <li>Interpretability &amp; fine-tuning</li>
+      <li>Clinical NLP</li>
+    </ul>
+  </section>
+
+  <section id="publications">
+    <h2>Publications</h2>
+
+    <div class="pub">
+      <div class="num">[1]</div>
+      <div>
+        <div class="title">Prompt Design and LLM-Based Revision for Patient-Facing Discharge-Note Simplification</div>
+        <div class="authors"><b>Junyu Lu</b>, X. Li, M. K. H. Dehkordi, Y. Perl, F. P. Deek</div>
+        <div class="venue"><span class="badge">Accepted</span>IEEE International Conference on Bioinformatics and Biomedicine (BIBM)</div>
+      </div>
+    </div>
+
+    <div class="pub">
+      <div class="num">[2]</div>
+      <div>
+        <div class="title">Enhancing Patient Comprehension of Discharge Notes with a Retrieval-Augmented LLM Approach</div>
+        <div class="authors">M. K. H. Dehkordi, <b>Junyu Lu</b>, Y. Perl, F. P. Deek</div>
+        <div class="venue"><span class="badge">Published</span>IEEE BIBM 2025, pp. 6966–6973 ·
+          <a href="https://doi.org/10.1109/BIBM66473.2025.11356919" target="_blank" rel="noopener">DOI</a></div>
+      </div>
+    </div>
+
+    <div class="pub">
+      <div class="num">[3]</div>
+      <div>
+        <div class="title">Learning from Past Errors: Experience-Guided LLM Review for Clinical Text Simplification</div>
+        <div class="authors"><b>Junyu Lu</b> et al.</div>
+        <div class="venue"><span class="badge">Under review</span>Submitted manuscript, 2026</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="projects">
+    <h2>Selected Projects</h2>
+
+    <article class="project">
+      <h3>SimpleNote: A Multi-Agent Workflow for Auditable Clinical Text Simplification</h3>
+      <p class="stack">Python · LangGraph · LangChain · OpenAI API · UMLS · pytest</p>
+      <ul>
+        <li>Built a ten-node LangGraph state graph that orchestrates sub-agents for fact extraction, terminology retrieval, planning, writing, and checking; every draft ends in an accept, retry, or reject decision with its reason saved.</li>
+        <li>Aligned source and output facts with hybrid embedding-plus-lexical scoring and Hungarian matching, so omissions and unsupported additions are caught fact by fact.</li>
+        <li>Cut simulated-reader questions per 100 words by <b>45.3%</b> versus direct prompting on 18 MIMIC-III notes; 18/18 runs finished with zero runtime errors, backed by a pytest suite of 100+ tests.</li>
+      </ul>
+    </article>
+
+    <article class="project">
+      <h3>Experience-Guided LLM Review <a href="#publications">[3]</a></h3>
+      <p class="stack">LLM review agents · structured memory · human adjudication</p>
+      <ul>
+        <li>Found that injected experience helps reviewers unevenly, and designed independent general and experience-guided reviewers whose complementary findings are kept after verification.</li>
+        <li>Raised error-detection recall from <b>49.80% to 61.67%</b> over two combined general reviews in a 20-case human-adjudicated evaluation, doubling confirmed new detections (9 → 18).</li>
+      </ul>
+    </article>
+
+    <article class="project">
+      <h3>Prompt Design and Reader Simulation for Patient-Facing Notes <a href="#publications">[1]</a></h3>
+      <p class="stack">2×3 controlled study · blinded LLM reader simulation · human fact annotation</p>
+      <ul>
+        <li>Ran a controlled study of short versus detailed prompts and three revision strategies over 120 outputs, with blinded simulated readers and two human fact annotators.</li>
+        <li>Showed that better readability scores can hide more reader confusion: detailed prompts scored grade 9.3 versus 13.4, yet drew more simulated-reader questions per 100 words.</li>
+      </ul>
+    </article>
+
+    <article class="project">
+      <h3>Neuro-Symbolic Consistency Verifier</h3>
+      <p class="stack">PyTorch · first-order logic · ClinicalBERT · differentiable predicates</p>
+      <ul>
+        <li>Trained an interpretable verifier that turns sentences into first-order-logic facts, aligns them, and learns predicate thresholds by backpropagation.</li>
+        <li>Built a 1,250-pair synthetic-error benchmark and reached <b>83% accuracy</b> and 0.86 inconsistency F1 on held-out source sentences.</li>
+      </ul>
+    </article>
+
+    <article class="project">
+      <h3>RAG over a Biomedical Knowledge Base <a href="#publications">[2]</a></h3>
+      <p class="stack">SciSpaCy · UMLS · FAISS · GPT-4o</p>
+      <ul>
+        <li>Co-developed a pipeline that links clinical terms to UMLS concepts and grounds generation in definitions retrieved by FAISS semantic search.</li>
+        <li>Raised completeness from 72.7% to 77.6% and cut errors from 6 to 2 on 20 MIMIC-III notes.</li>
+      </ul>
+    </article>
+
+    <article class="project">
+      <h3>Layer Attribution and Selective LoRA for Llama-3-8B</h3>
+      <p class="stack">PyTorch · PEFT/LoRA · Shapley attribution</p>
+      <ul>
+        <li>Designed matched-control Shapley attribution over all 32 layers to separate layers that lean toward factuality from those that lean toward readability.</li>
+        <li>Fine-tuned Llama-3-8B-Instruct with LoRA under attribution-guided freezing, uniform adaptation, and three random-freeze controls.</li>
+      </ul>
+    </article>
+  </section>
+
+  <section id="experience">
+    <h2>Education &amp; Experience</h2>
+    <div class="timeline">
+      <div class="item">
+        <div class="what">Ph.D. in Computer Science</div>
+        <div class="when">Expected May 2028</div>
+        <div class="where">New Jersey Institute of Technology · GPA 4.0 · Research Assistant</div>
+      </div>
+      <div class="item">
+        <div class="what">Quantitative Developer Intern</div>
+        <div class="when">Jan – Mar 2023</div>
+        <div class="where">New York Life Insurance, New York, NY · automated PostgreSQL migration checks with Python and SQL</div>
+      </div>
+      <div class="item">
+        <div class="what">M.S. in Financial Engineering</div>
+        <div class="when">Dec 2022</div>
+        <div class="where">Stevens Institute of Technology · GPA 3.7</div>
+      </div>
+      <div class="item">
+        <div class="what">B.S. in Financial Management</div>
+        <div class="when">Jul 2019</div>
+        <div class="where">Huaibei Normal University</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="skills">
+    <h2>Skills</h2>
+    <dl class="skills">
+      <dt>LLMs &amp; Agents</dt>
+      <dd>LangGraph, LangChain, multi-agent workflows, RAG, FAISS, OpenAI API, prompt design, LLM evaluation</dd>
+      <dt>Machine Learning</dt>
+      <dd>PyTorch, Hugging Face Transformers, PEFT/LoRA, scikit-learn, XGBoost, SHAP</dd>
+      <dt>Engineering &amp; Data</dt>
+      <dd>Python, SQL, PostgreSQL, pandas, NumPy, Git, pytest</dd>
+    </dl>
+  </section>
+
+  <section id="contact">
+    <h2>Contact</h2>
+    <p>Email: <a href="mailto:jl2537@njit.edu">jl2537@njit.edu</a> · GitHub: <a href="https://github.com/Junnnnyu" target="_blank" rel="noopener">Junnnnyu</a> · Jersey City, NJ</p>
+  </section>
+</main>
+
+<footer>
+  <span>© 2026 Junyu Lu</span>
+  <button class="theme-toggle" id="themeToggle" type="button">Toggle theme</button>
+</footer>
+
+<script>
+  (function () {
+    var root = document.documentElement;
+    try {
+      var saved = localStorage.getItem("theme");
+      if (saved) root.setAttribute("data-theme", saved);
+    } catch (e) {}
+    document.getElementById("themeToggle").addEventListener("click", function () {
+      var current = root.getAttribute("data-theme");
+      if (!current) current = matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+      var next = current === "dark" ? "light" : "dark";
+      root.setAttribute("data-theme", next);
+      try { localStorage.setItem("theme", next); } catch (e) {}
+    });
+  })();
+</script>
+</body>
+</html>
